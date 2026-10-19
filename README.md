@@ -1,27 +1,42 @@
-# JEST Unit Tests
+# Unit Tests com Jest e Stryker
 
-## GitHub Actions
+Fork de [ugioni/unit-tests-jest](https://github.com/ugioni/unit-tests-jest), adaptado para experimentar a técnica de **testes de mutação** com [StrykerJS](https://stryker-mutator.io/).
 
-[![Build and Tests](https://github.com/ugioni/unit-tests-jest/actions/workflows/node.js.yml/badge.svg?branch=master)](https://github.com/ugioni/unit-tests-jest/actions/workflows/node.js.yml)
+## Objetivo
 
-## SonarCloud
+Executar os testes unitários existentes com Jest e avaliar sua capacidade de identificar pequenas modificações introduzidas automaticamente no código pelo Stryker. Um mutante **morto** foi identificado por um teste; um mutante **sobrevivente** pode apontar uma lacuna nos testes.
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ugioni_unit-tests-jest&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ugioni_unit-tests-jest)
+## Executar localmente
 
-## Getting Started
+Requer Node.js 20+ e npm.
 
-In order to execute this project you must follow the steps below:
+```bash
+npm install
+npm test
+npm run coverage
+npm run mutation
+```
 
-1. Install [Node JS](https://nodejs.org/) (version >= 20.x)
-1. Run `npm install` to install all the project dependencies
-1. Run `npm run test` to execute the entire test suite
-1. Run `npm run coverage` to execute the entire test suite with coverage
+O `npm install` também atualiza o arquivo `package-lock.json` com as novas dependências, que deve ser incluído em um commit.
 
-All execution artifacts can be found in `./coverage`, if you want to remove these files run `npm run clean`.
+## Resultados
 
-## Project Structure
-</br>
-<ul>
-    <li>src: source code</li>
-    <li>test: unit test files</li>
-</ul>
+O Stryker gera o relatório HTML em `reports/mutation/html/index.html`. Abra-o no navegador após `npm run mutation`.
+
+A pontuação de mutação indica a eficácia da suíte para detectar as alterações testadas. Não confunda cobertura de código com mutation score: executar linhas não garante detectar bugs.
+
+## Estrutura
+
+- `src/`: código original
+- `test/`: testes Jest
+- `stryker.config.json`: configuração dos testes de mutação
+- `.github/workflows/mutation-tests.yml`: execução automatizada com GitHub Actions
+
+### Procedimento de análise
+
+1. Execute a suíte Jest original.
+2. Rode o Stryker e observe mutantes mortos, sobreviventes e erros.
+3. Inspecione no relatório os mutantes sobreviventes e identifique condições ou casos não testados.
+4. Melhore os testes e execute novamente o Stryker, comparando os resultados.
+
+Projeto baseado no repositório de ugioni.
