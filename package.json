@@ -1,5 +1,5 @@
 {
-  "name": "unit-tests-jest",
+  "name": "unit-test-jest-stryker",
   "version": "1.0.0",
   "description": "Example to unit tests using Jest",
   "main": "index.js",
@@ -13,7 +13,8 @@
   "scripts": {
     "clean": "rimraf ./coverage && mkdirp ./coverage",
     "test": "npm run clean && jest",
-    "coverage": "npm run clean && jest --coverage"
+    "coverage": "npm run clean && jest --coverage",
+    "mutation": "stryker run"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -23,5 +24,9 @@
       "lcov",
       "text"
     ]
+  },
+  "devDependencies": {
+    "@stryker-mutator/core": "^9.0.0",
+    "@stryker-mutator/jest-runner": "^9.0.0"
   }
 }
